@@ -23,7 +23,7 @@ Este é um projeto que calcula a área, o perímetro e o volume de diferentes fo
 
 Este é um projeto desenvolvido como parte do **Programa One** da **Alura**, em parceria com a **Oracle**. Ele consiste em um sistema de sorteio de amigo secreto, onde os usuários podem adicionar os nomes dos participantes e realizar o sorteio de forma aleatória.
 
-- [Amigo Secreto](https://github.com/MarinhoFelipe1811/amigo-secreto)
+- [Amigo Secreto](https://github.com/MarinhoFelipe1811/AmigoSecreto)
 ## Contatos
 
 - [LinkedIn](https://www.linkedin.com/in/felipe-marinho-38b53b298/)
