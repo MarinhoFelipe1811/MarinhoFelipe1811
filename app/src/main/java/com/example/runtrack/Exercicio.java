@@ -13,10 +13,9 @@ public class Exercicio {
     @ColumnInfo(name = "distancia")
     private double distancia;
 
-    //TODO: SOBRESCREVER O MÉTODO "toString" PARA EXIBIR AS INFORMAÇÕES TEXTUAIS DE CADA EXERCÍCIO CADASTRADO
     @Override
     public String toString() {
-        return "";
+        return descricao + " - " + distancia + "m";
     }
 
     public int getId() {

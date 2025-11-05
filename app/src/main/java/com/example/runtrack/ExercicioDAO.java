@@ -11,6 +11,18 @@ public interface ExercicioDAO {
     @Query("SELECT * FROM exercicios")
     List<Exercicio> buscaTodosExercicios();
 
-    //TODO: IMPLEMENTAR MÉTODOS PARA INSERIR UM EXERCÍCIO, BUSCAR O ÚLTIMO EXERCÍCIO CADASTRADO, E EXCLUIR UM EXERCÍCIO.
-    //PONTO EXTRA PARTE 1: IMPLEMENTAÇÃO DA BUSCA DO MAIOR EXERCÍCIO CADASTRADO
+    @Insert
+    void inserir(Exercicio exercicio);
+
+    @Query("SELECT * FROM exercicios ORDER BY id DESC LIMIT 1")
+    Exercicio buscarUltimoExercicio();
+
+    @Delete
+    void excluir(Exercicio exercicio);
+
+    @Query("SELECT * FROM exercicios ORDER BY distancia DESC LIMIT 1")
+    Exercicio buscarMaiorExercicio();
+
+    @Query("SELECT SUM(distancia) FROM exercicios")
+    Double buscarDistanciaTotal();
 }

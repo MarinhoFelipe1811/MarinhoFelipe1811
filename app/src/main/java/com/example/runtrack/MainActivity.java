@@ -67,19 +67,91 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void excluirExercicio() {
-        //TODO: BUSCAR O ÚLTIMO EXERCÍCIO NO BANCO DE DADOS, EXCLUÍ-LO, E DEPOIS BUSCAR TODOS OS EXERCÍCIOS NOVAMENTE, PARA ATUALIZAR A TELA
-        //OBS: LEMBRAR QUE O ACESSO AO BANCO DE DADOS PRECISA SER FEITO EM UMA NOVA THREAD
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Exercicio ultimoExercicio = db.exercicioDAO().buscarUltimoExercicio();
+                
+                if (ultimoExercicio != null) {
+                    db.exercicioDAO().excluir(ultimoExercicio);
+                    
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Exercício excluído com sucesso", Toast.LENGTH_SHORT).show();
+                            buscarExercicios();
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Nenhum exercício para excluir", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     private void salvarExercicio() {
-        //TODO: CAPTURAR AS INFORMAÇÕES DO EXERCÍCIO, INSERIR NO BANCO DE DADOS, E DEPOIS BUSCAR TODOS OS EXERCÍCIOS NOVAMENTE, PARA ATUALIZAR A TELA
-        //OBS: LEMBRAR QUE O ACESSO AO BANCO DE DADOS PRECISA SER FEITO EM UMA NOVA THREAD
+        String desc = descricao.getText().toString();
+        String distStr = distancia.getText().toString();
+
+        if (desc.isEmpty() || distStr.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double dist = Double.parseDouble(distStr);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Exercicio exercicio = new Exercicio();
+                exercicio.setDescricao(desc);
+                exercicio.setDistancia(dist);
+                db.exercicioDAO().inserir(exercicio);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        descricao.setText("");
+                        distancia.setText("");
+                        Toast.makeText(MainActivity.this, "Exercício cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+                        buscarExercicios();
+                    }
+                });
+            }
+        }).start();
     }
 
     private void buscarExercicios() {
-        //TODO: BUSCAR TODOS OS EXERCÍCIOS NO BANCO DE DADOS, E EXIBÍ-LOS NO LISTVIEW
-        //OBS: LEMBRAR QUE O ACESSO AO BANCO DE DADOS PRECISA SER FEITO EM UMA NOVA THREAD
-        //OBS: LEMBRAR QUE A LISTA DE EXERCÍCIOS DEVE SER ATUALIZADA A CADA INSERÇÃO/REMOÇÃO
-        //PONTO EXTRA PARTE 2: EXIBIÇÃO/ATUALIZAÇÃO, NO TEXTVIEW, DA DISTÂNCIA TOTAL PERCORRIDA E DO MAIOR EXERCÍCIO CADASTRADO.
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Exercicio> exercicios = db.exercicioDAO().buscaTodosExercicios();
+                Double distanciaTotal = db.exercicioDAO().buscarDistanciaTotal();
+                Exercicio maiorExercicio = db.exercicioDAO().buscarMaiorExercicio();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listaExercicios.clear();
+                        listaExercicios.addAll(exercicios);
+                        adapter.notifyDataSetChanged();
+
+                        String info = "Total de exercícios: " + exercicios.size();
+                        if (distanciaTotal != null) {
+                            info += "\nDistância total: " + distanciaTotal + "m";
+                        }
+                        if (maiorExercicio != null) {
+                            info += "\nMaior exercício: " + maiorExercicio.getDistancia() + "m";
+                        }
+                        informacoes.setText(info);
+                    }
+                });
+            }
+        }).start();
     }
 }
