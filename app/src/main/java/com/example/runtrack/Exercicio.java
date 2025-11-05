@@ -15,7 +15,7 @@ public class Exercicio {
 
     @Override
     public String toString() {
-        return descricao + " - " + distancia + "m";
+        return descricao + " - " + String.format("%.2f", distancia) + "m";
     }
 
     public int getId() {

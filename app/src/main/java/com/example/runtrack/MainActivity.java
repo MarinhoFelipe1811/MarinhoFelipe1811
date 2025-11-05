@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button salvar, excluir;
     private TextView informacoes;
     private ListView listViewExercicios;
-    private List<Exercicio> listaExercicios = new ArrayList();
+    private List<Exercicio> listaExercicios = new ArrayList<>();
     private ArrayAdapter<Exercicio> adapter;
     private MyDatabase db;
     @Override
@@ -103,7 +103,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        double dist = Double.parseDouble(distStr);
+        double dist;
+        try {
+            dist = Double.parseDouble(distStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Digite um valor numérico válido para a distância", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         new Thread(new Runnable() {
             @Override
@@ -142,11 +148,13 @@ public class MainActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
 
                         String info = "Total de exercícios: " + exercicios.size();
-                        if (distanciaTotal != null) {
-                            info += "\nDistância total: " + distanciaTotal + "m";
+                        if (distanciaTotal != null && distanciaTotal > 0) {
+                            info += "\nDistância total: " + String.format("%.2f", distanciaTotal) + "m";
+                        } else {
+                            info += "\nDistância total: 0.00m";
                         }
                         if (maiorExercicio != null) {
-                            info += "\nMaior exercício: " + maiorExercicio.getDistancia() + "m";
+                            info += "\nMaior exercício: " + String.format("%.2f", maiorExercicio.getDistancia()) + "m";
                         }
                         informacoes.setText(info);
                     }
