@@ -1,8 +1,7 @@
 ## Sobre Mim
 
-Meu nome é **Felipe Marinho**, sou estudante de **Ciência da Computação** pelo **Centro Universitário de Brasília**.
-Atualmente estou no quarto semestre do curso e estou aprendendo HTML, CSS e JavaScript. 
-Tenho interesse em **front-end** e **data science** e estou buscando ser um profissional versátil, comunicativo e competente.
+Meu nome é **Felipe Marinho**, sou estudante de **Ciência da Computação** pelo **Centro Universitário de Brasília**. 
+Tenho interesse em **Nuvem**, **front-end** e **data science** e estou buscando ser um profissional versátil, comunicativo e competente.
 
 ## Tecnologias Utilizadas
 
